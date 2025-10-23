@@ -88,7 +88,9 @@ class Teams {
               for pool in completePools {
                 if pool.teamsForMember(member).contains(team) {
                   let isWinning = (record.wins - oldRecord.wins) > (record.losses - oldRecord.losses)
-                  UNUserNotificationCenter.addNotificationForTeam(team, record:record, winning: isWinning)
+                  if NBA.seasonYearFromDate(pool.dateCreated ?? Date()) == NBA.seasonYearFromDate(Date()) {
+                    UNUserNotificationCenter.addNotificationForTeam(team, record:record, winning: isWinning)
+                  }
                   break
                 }
               }
@@ -98,9 +100,11 @@ class Teams {
 
         // check for changes in rankings
         for pool in completePools {
-          let members = pool.membersSortedByWinPercentage
-          if let newRank = members.firstIndex(of: member), let oldRank = poolRankings[pool.id], newRank != oldRank {
-            UNUserNotificationCenter.addNotificationForPool(pool, rank: newRank + 1, rising: newRank < oldRank)
+          if NBA.seasonYearFromDate(pool.dateCreated ?? Date()) == NBA.seasonYearFromDate(Date()) {
+            let members = pool.membersSortedByWinPercentage
+            if let newRank = members.firstIndex(of: member), let oldRank = poolRankings[pool.id], newRank != oldRank {
+              UNUserNotificationCenter.addNotificationForPool(pool, rank: newRank + 1, rising: newRank < oldRank)
+            }
           }
         }
         
