@@ -10,7 +10,9 @@ import UIKit
 import UserNotifications
 import BackgroundTasks
 import Firebase
-import FirebaseUI
+import FirebaseAuthUI
+import FirebaseGoogleAuthUI
+import FirebaseEmailAuthUI
 
 fileprivate let backgroundTaskIdentifier = "com.johnbj.winspool.standings.refresh"
 
@@ -28,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     authUI?.delegate = self
     authUI?.providers = [
       FUIEmailAuth(),
-      FUIGoogleAuth()
+      FUIGoogleAuth(authUI: authUI!)
     ]
 
     UIApplication.shared.isStatusBarHidden = false
@@ -148,6 +150,6 @@ extension AppDelegate: FUIAuthDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    completionHandler([.alert, .badge, .sound])
+    completionHandler([.banner, .badge, .sound])
   }
 }

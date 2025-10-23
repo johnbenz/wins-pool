@@ -78,13 +78,10 @@ class Teams {
         }
         
         // update standings
-        var standings = s.league.standard.conference.east
-        standings.append(contentsOf: s.league.standard.conference.west)
-        standings
-          .filter { $0.toTeamId() != nil }
+        s.teamteam_standing.enumerated()
           .forEach {
-            let id = $0.toTeamId()!
-            let record = Record(wins: $0.wins, losses: $0.losses)
+            let id = NBA.TeamId(rawValue: $0.element.key)!.toTeamId()!
+            let record = Record(wins: $0.element.value.wins, losses: $0.element.value.losses)
             
             // add notification for change in team record
             if let team = self?.idToTeam[id.rawValue], let oldRecord = team.record, oldRecord != record {
@@ -113,6 +110,6 @@ class Teams {
   }
 }
 
-protocol TeamsDelegate: class {
+protocol TeamsDelegate: AnyObject {
   func teams(_ teams: Teams, didUpdateTeam team: Team)
 }

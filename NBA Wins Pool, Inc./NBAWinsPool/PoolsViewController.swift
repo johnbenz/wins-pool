@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import FirebaseUI
+import FirebaseAuthUI
 
 class PoolsViewController: UITableViewController, PoolTableViewCellDelegate {
   
@@ -50,7 +50,8 @@ class PoolsViewController: UITableViewController, PoolTableViewCellDelegate {
         UIAlertController.alertOK(title: "Update Pools Error", message: e.localizedDescription)
       }
       guard let p = updatedPools else { return }
-      self.pools = p.sorted { $0.name < $1.name }
+      let past = Date.distantPast
+      self.pools = p.sorted { ($0.dateCreated ?? past) > ($1.dateCreated ?? past) }
       p.forEach { UNUserNotificationCenter.addDraftPickNotification(pool: $0) }
       self.reloadData()
     }

@@ -36,6 +36,6 @@ class PoolTableViewCell: UITableViewCell {
   }
 }
 
-protocol PoolTableViewCellDelegate: class {
+protocol PoolTableViewCellDelegate: AnyObject {
   func poolCellButtonPressed(cell: PoolTableViewCell)
 }

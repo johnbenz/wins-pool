@@ -22,11 +22,15 @@ struct Pool: Codable {
   let size: Int
   var idToMember = [String : Member]()
   var numberToPick = [Int : Pick]()
+  let dateCreated: Date?
+  
+  static var dateFormatter = ISO8601DateFormatter()
   
   init(id: String, name: String, size: Int, members: [Member]) {
     self.id = id
     self.name = name
     self.size = size
+    self.dateCreated = Date()
     members.forEach { self.idToMember[$0.id] = $0 }
   }
   

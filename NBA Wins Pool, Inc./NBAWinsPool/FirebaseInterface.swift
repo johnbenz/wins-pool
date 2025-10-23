@@ -14,9 +14,21 @@ struct FirebaseInterface {
   
   static var db = Firestore.firestore()
   
+  static var firebaseDecoder: Firestore.Decoder = {
+    let decoder = Firestore.Decoder()
+    decoder.dateDecodingStrategy = .iso8601
+    return decoder
+  }()
+  
+  static var firebaseEncoder: Firestore.Encoder = {
+    let encoder = Firestore.Encoder()
+    encoder.dateEncodingStrategy = .iso8601
+    return encoder
+  }()
+  
   static func createPool(_ pool: Pool, completion: @escaping (Error?) -> Void) {
     do {
-      try db.collection("pools").document(pool.id).setData(from: pool) { (error) in
+      try db.collection("pools").document(pool.id).setData(from: pool, encoder: FirebaseInterface.firebaseEncoder) { (error) in
         completion(error)
       }
     } catch {
@@ -31,7 +43,7 @@ struct FirebaseInterface {
       // get the latest pool
       let pool: Pool?
       do {
-        try pool = transaction.getDocument(documentRef).data(as: Pool.self)
+        try pool = transaction.getDocument(documentRef).data(as: Pool.self, decoder: FirebaseInterface.firebaseDecoder)
       } catch let fetchError as NSError {
         errorPointer?.pointee = fetchError
         return nil
@@ -97,7 +109,7 @@ struct FirebaseInterface {
         return nil
       }
       
-      guard var p = pool else {
+      guard let p = pool else {
         let error = NSError(
           domain: "AppErrorDomain",
           code: -1,
@@ -156,7 +168,7 @@ struct FirebaseInterface {
           return
         }
         do {
-          let updatedPool = try documentSnapshot?.data(as: Pool.self)
+          let updatedPool = try documentSnapshot?.data(as: Pool.self, decoder: FirebaseInterface.firebaseDecoder)
           update(updatedPool, error)
         } catch {
           update(nil, error)
@@ -171,7 +183,7 @@ struct FirebaseInterface {
         update(nil, error)
         return
       }
-      let pools = querySnapshot?.documents.compactMap { try? $0.data(as: Pool.self) }
+      let pools = querySnapshot?.documents.compactMap { try? $0.data(as: Pool.self, decoder: FirebaseInterface.firebaseDecoder) }
       update(pools, error)
     }
   }
@@ -183,7 +195,14 @@ struct FirebaseInterface {
         completion(nil, error)
         return
       }
-      let pools = querySnapshot?.documents.compactMap { try? $0.data(as: Pool.self) }
+      
+      var pools: [Pool]?
+      do {
+        pools = try querySnapshot?.documents.compactMap { try $0.data(as: Pool.self, decoder: FirebaseInterface.firebaseDecoder) }
+      } catch {
+        print(error)
+      }
+      
       completion(pools, error)
     }
   }
