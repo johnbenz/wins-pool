@@ -87,6 +87,8 @@ class PoolsViewController: UITableViewController, PoolTableViewCellDelegate {
     let pool = pools[indexPath.row]
     cell.nameLabel?.text = pool.name
     cell.membersLabel?.text = "\(pool.members.count)/\(pool.size) members"
+    let year = NBA.seasonYearFromDate(pool.dateCreated ?? Date())
+    cell.dateLabel?.text = year + "-\((Int(year) ?? 0) + 1 - 2000)"
     
     if let button = cell.button {
       if pool.members.count != pool.size {

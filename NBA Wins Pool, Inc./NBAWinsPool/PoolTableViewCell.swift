@@ -14,6 +14,8 @@ class PoolTableViewCell: UITableViewCell {
   @IBOutlet weak var curvedView: UIView!
   @IBOutlet weak var nameLabel: UILabel!
   @IBOutlet weak var membersLabel: UILabel!
+  @IBOutlet weak var dateBackgroundView: UIView!
+  @IBOutlet weak var dateLabel: UILabel!
   
   weak var delegate: PoolTableViewCellDelegate?
   
@@ -23,6 +25,7 @@ class PoolTableViewCell: UITableViewCell {
     curvedView.layer.cornerRadius = 4.0
     buttonBackgroundView.layer.cornerRadius = 4.0
     button.layer.cornerRadius = 4.0
+    dateBackgroundView.layer.cornerRadius = 4.0
   }
   
   override func setSelected(_ selected: Bool, animated: Bool) {

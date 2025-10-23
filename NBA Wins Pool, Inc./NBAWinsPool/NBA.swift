@@ -58,9 +58,20 @@ class NBA {
     let losses: String
   }
   
-  func getStandings(completion: @escaping (Bool, NBA.Standings?) -> Void) {
+  static func seasonYearFromDate(_ date: Date) -> String {
+    let calendar = Calendar.current
+    let year = calendar.component(.year, from: date)
+    let month = calendar.component(.month, from: date)
+    
+    // If the date is before June (month 6), use previous year
+    let adjustedYear = month < 6 ? year - 1 : year
+    return String(adjustedYear)
+  }
+  
+  func getStandings(date: Date? = nil, completion: @escaping (Bool, NBA.Standings?) -> Void) {
+    let year = NBA.seasonYearFromDate(date ?? Date())
     Backend.shared.request(host: "https://sports.yahoo.com/",
-                           endPoint: "site/api/resource/sports.league.standings;alias=full_standings;count=100;league=nba;leagueSeason=standings;season=2025",
+                           endPoint: "site/api/resource/sports.league.standings;alias=full_standings;count=100;league=nba;leagueSeason=standings;season=\(year)",
                            parameters: [
                             "device" : "desktop",
                             "ecma" : "modern",
