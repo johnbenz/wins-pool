@@ -103,7 +103,7 @@ struct FirebaseInterface {
       // get the latest pool
       let pool: Pool?
       do {
-        try pool = transaction.getDocument(documentRef).data(as: Pool.self)
+        try pool = transaction.getDocument(documentRef).data(as: Pool.self, decoder: FirebaseInterface.firebaseDecoder)
       } catch let fetchError as NSError {
         errorPointer?.pointee = fetchError
         return nil
