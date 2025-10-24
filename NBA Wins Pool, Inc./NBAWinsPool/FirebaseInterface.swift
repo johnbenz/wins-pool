@@ -177,7 +177,7 @@ struct FirebaseInterface {
   }
   
   static func addPoolsListener(member: Member, update: @escaping ([Pool]?, Error?) -> Void) -> ListenerRegistration {
-    let query = db.collection("pools").whereField("idToMember.\(member.id)", isEqualTo: ["id": member.id, "name": member.name])
+    let query = db.collection("pools").whereField("idToMember.\(member.id).id", isEqualTo: member.id)
     return query.addSnapshotListener { (querySnapshot, error) in
       if error != nil {
         update(nil, error)
@@ -214,11 +214,16 @@ struct FirebaseInterface {
     completion: completion)
   }
   
+  static var dictionaryEncoder = {
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .iso8601
+    return encoder
+  }()
 }
 
 extension Encodable {
   var dictionary: [String: Any]? {
-    guard let data = try? JSONEncoder().encode(self) else { return nil }
+    guard let data = try? FirebaseInterface.dictionaryEncoder.encode(self) else { return nil }
     return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
   }
 }

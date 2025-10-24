@@ -221,65 +221,65 @@ extension Team {
   var emoji: String {
     switch id {
     case .hawks:
-      return "🕊"
+      return "🥷"
     case .celtics:
-      return "🧑🏾‍🦽"
+      return "🥋"
     case .nets:
-      return "♟️"
+      return "🚮"
     case .hornets:
       return "🐝"
     case .bulls:
-      return "🧻"
+      return "🐮"
     case .cavaliers:
-      return "⚰️"
+      return "🤺"
     case .mavericks:
-      return "⛹️‍♂️"
+      return "🏳️"
     case .nuggets:
       return "🃏"
     case .pistons:
-      return "💩"
+      return "🏎️"
     case .warriors:
-      return "🪦"
+      return "🤵‍♂️"
     case .rockets:
-      return "🦿"
+      return "👨‍🚀"
     case .pacers:
-      return "🧖‍♂️"
+      return "👨‍🦼"
     case .clippers:
-      return "🧱"
+      return "🌳"
     case .lakers:
-      return "🏆"
+      return "🏋️"
     case .grizzlies:
       return "🧸"
     case .heat:
-      return "🔥"
+      return "🚬"
     case .bucks:
-      return "🏺"
+      return "🧍🏾‍♂️👬🏾"
     case .timberwolves:
-      return "🥔"
+      return "🐜"
     case .pelicans:
-      return "🦤"
+      return "🪹"
     case .knicks:
-      return "🤡"
+      return "👢"
     case .thunder:
-      return "🎰"
+      return "🏆"
     case .magic:
-      return "🪄"
+      return "🤹"
     case .sixers:
-      return "🫂"
+      return "🪮"
     case .suns:
-      return "☀️"
+      return "🧴"
     case .blazers:
-      return "🪵"
+      return "🧧"
     case .kings:
-      return "🕳"
+      return "🧱"
     case .spurs:
-      return "🏚"
+      return "🥐"
     case .raptors:
-      return "🧣"
+      return "🦎"
     case .jazz:
-      return "🎷"
+      return "👨‍🦳"
     case .wizards:
-      return "🔫"
+      return "💩"
     }
   }
 }
