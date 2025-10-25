@@ -39,7 +39,7 @@ class PoolsViewController: UITableViewController, PoolTableViewCellDelegate {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    Teams.shared.delegate = self
+    Records.shared.delegate = self
     reloadData()
     
     guard let member = Member.currentMember else { return }
@@ -59,7 +59,7 @@ class PoolsViewController: UITableViewController, PoolTableViewCellDelegate {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    Teams.shared.delegate = nil
+    Records.shared.delegate = nil
     listener?.remove()
     listener = nil
   }
@@ -87,18 +87,21 @@ class PoolsViewController: UITableViewController, PoolTableViewCellDelegate {
     let pool = pools[indexPath.row]
     cell.nameLabel?.text = pool.name
     cell.membersLabel?.text = "\(pool.members.count)/\(pool.size) members"
-    let year = NBA.seasonYearFromDate(pool.dateCreated ?? Date())
+    let year = (pool.dateCreated ?? Date()).nbaYear
     cell.dateLabel?.text = year + "-\((Int(year) ?? 0) + 1 - 2000)"
     
     if let button = cell.button {
       if pool.members.count != pool.size {
         button.setTitle("Invite", for: .normal)
       } else if pool.isComplete {
-        var record = Record(wins: 0, losses: 0)
         if let member = Member.currentMember {
-          record = pool.recordForMember(member)
+          pool .recordForMember(member) { r in
+            button.setTitle("\(r.wins)-\(r.losses) (\(String(format: "%.1f", r.percentage*100.0)))", for: .normal)
+          }
+        } else {
+          let record = Record.zero
+          button.setTitle("\(record.wins)-\(record.losses) (\(String(format: "%.1f", record.percentage*100.0)))", for: .normal)
         }
-        button.setTitle("\(record.wins)-\(record.losses) (\(String(format: "%.1f", record.percentage*100.0)))", for: .normal)
       } else if let username = pool.currentPick?.member.name {
         if let name = Member.currentMember?.name, name == username {
           button.setTitle("Your pick!", for: .normal)
@@ -196,8 +199,8 @@ class PoolsViewController: UITableViewController, PoolTableViewCellDelegate {
   
 }
 
-extension PoolsViewController: TeamsDelegate {
-  func teams(_ teams: Teams, didUpdateTeam team: Team) {
+extension PoolsViewController: RecordsDelegate {
+  func didUpdateRecords(_ records: Records, forYear: String) {
     reloadData()
   }
 }

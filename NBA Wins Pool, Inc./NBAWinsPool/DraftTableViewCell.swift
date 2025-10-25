@@ -14,14 +14,16 @@ class DraftTableViewCell: UITableViewCell {
   @IBOutlet weak var emoji: UILabel!
   @IBOutlet weak var record: UILabel!
   
-  func set(team: Team?) {
+  func set(team: Team?, date: Date) {
     record.text = nil
     if let t = team {
       label.text = t.name
       emoji.text = t.emoji
       contentView.backgroundColor = t.primaryColor
-      if let r = team?.record {
-        record.text = "\(r.wins)-\(r.losses) (\(String(format: "%.1f", r.percentage*100.0)))"
+      
+      team?.recordForDate(date) { [weak self] r in
+        guard let r else { return }
+        self?.record.text = "\(r.wins)-\(r.losses) (\(String(format: "%.1f", r.percentage*100.0)))"
       }
     } else {
       label.text = "--"

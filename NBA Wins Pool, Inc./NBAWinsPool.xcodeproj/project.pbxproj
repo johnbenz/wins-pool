@@ -21,6 +21,7 @@
 		7BDE35B42EA8517F00E8D953 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7BDE35B32EA8517F00E8D953 /* FirebaseAuth */; };
 		7BDE35B62EA8517F00E8D953 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7BDE35B52EA8517F00E8D953 /* FirebaseFirestore */; };
 		7BDE35B82EA8517F00E8D953 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7BDE35B72EA8517F00E8D953 /* FirebaseFirestoreSwift */; };
+		7BDE35BA2EABFCBE00E8D953 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDE35B92EABFCBA00E8D953 /* Record.swift */; };
 		7BED390A2585A5B6001C9ABB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7BED39092585A5B6001C9ABB /* GoogleService-Info.plist */; };
 		7BED3A062586EF25001C9ABB /* AuthPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BED3A042586EF25001C9ABB /* AuthPickerViewController.swift */; };
 		7BED3A072586EF25001C9ABB /* AuthPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BED3A052586EF25001C9ABB /* AuthPickerViewController.xib */; };
@@ -37,7 +38,7 @@
 		C26DB53D1D7BF66800BF5EFF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C26DB53B1D7BF66800BF5EFF /* Main.storyboard */; };
 		C26DB53F1D7BF66800BF5EFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C26DB53E1D7BF66800BF5EFF /* Assets.xcassets */; };
 		C26DB5421D7BF66800BF5EFF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C26DB5401D7BF66800BF5EFF /* LaunchScreen.storyboard */; };
-		C26DB54D1D7BF67A00BF5EFF /* Teams.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26DB54A1D7BF67A00BF5EFF /* Teams.swift */; };
+		C26DB54D1D7BF67A00BF5EFF /* Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26DB54A1D7BF67A00BF5EFF /* Records.swift */; };
 		C26DB54E1D7BF67A00BF5EFF /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26DB54B1D7BF67A00BF5EFF /* Team.swift */; };
 		C274E8511DC5AEFF0050AC0F /* UNUserNotificationCenterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C274E8501DC5AEFF0050AC0F /* UNUserNotificationCenterExtension.swift */; };
 		C2784BC21D950D5600C6DA1F /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2784BC11D950D5600C6DA1F /* Member.swift */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		7B67EBC62367A50E00F80013 /* Wins Pool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Wins Pool.entitlements"; sourceTree = "<group>"; };
 		7BCAC625219E6B7500751200 /* NBA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NBA.swift; sourceTree = "<group>"; };
+		7BDE35B92EABFCBA00E8D953 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7BED39092585A5B6001C9ABB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7BED3A042586EF25001C9ABB /* AuthPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPickerViewController.swift; sourceTree = "<group>"; };
 		7BED3A052586EF25001C9ABB /* AuthPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthPickerViewController.xib; sourceTree = "<group>"; };
@@ -73,7 +75,7 @@
 		C26DB53E1D7BF66800BF5EFF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C26DB5411D7BF66800BF5EFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C26DB5431D7BF66800BF5EFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C26DB54A1D7BF67A00BF5EFF /* Teams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Teams.swift; sourceTree = "<group>"; };
+		C26DB54A1D7BF67A00BF5EFF /* Records.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Records.swift; sourceTree = "<group>"; };
 		C26DB54B1D7BF67A00BF5EFF /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		C274E8501DC5AEFF0050AC0F /* UNUserNotificationCenterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UNUserNotificationCenterExtension.swift; sourceTree = "<group>"; };
 		C2784BC11D950D5600C6DA1F /* Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
@@ -195,7 +197,8 @@
 		C2EF2CB31DB0AEF300EA63B6 /* Teams */ = {
 			isa = PBXGroup;
 			children = (
-				C26DB54A1D7BF67A00BF5EFF /* Teams.swift */,
+				C26DB54A1D7BF67A00BF5EFF /* Records.swift */,
+				7BDE35B92EABFCBA00E8D953 /* Record.swift */,
 				C26DB54B1D7BF67A00BF5EFF /* Team.swift */,
 				C2EF2CB41DB0B2EA00EA63B6 /* TeamsViewController.swift */,
 			);
@@ -307,6 +310,7 @@
 				C2EF2CB51DB0B2EA00EA63B6 /* TeamsViewController.swift in Sources */,
 				C2A771F41D85052500B2DC13 /* PoolTableViewCell.swift in Sources */,
 				7BCAC626219E6B7500751200 /* NBA.swift in Sources */,
+				7BDE35BA2EABFCBE00E8D953 /* Record.swift in Sources */,
 				C274E8511DC5AEFF0050AC0F /* UNUserNotificationCenterExtension.swift in Sources */,
 				7BED3A062586EF25001C9ABB /* AuthPickerViewController.swift in Sources */,
 				C2784BD21D9662F000C6DA1F /* AlertExtension.swift in Sources */,
@@ -315,7 +319,7 @@
 				C2EF2C161DAB1A5E00EA63B6 /* UIViewExtension.swift in Sources */,
 				C26DB54E1D7BF67A00BF5EFF /* Team.swift in Sources */,
 				7BED3A5925871B47001C9ABB /* FirebaseInterface.swift in Sources */,
-				C26DB54D1D7BF67A00BF5EFF /* Teams.swift in Sources */,
+				C26DB54D1D7BF67A00BF5EFF /* Records.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +469,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = PB64TVTV9M;
 				INFOPLIST_FILE = NBAWinsPool/Info.plist;
@@ -491,7 +495,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = PB64TVTV9M;
 				INFOPLIST_FILE = NBAWinsPool/Info.plist;

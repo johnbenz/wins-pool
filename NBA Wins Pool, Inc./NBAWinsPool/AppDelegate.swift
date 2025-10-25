@@ -55,14 +55,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     UNUserNotificationCenter.current().delegate = self
     
-    Teams.shared.getStandings()
+    Records.shared.refreshCurrentRecords()
     return true
   }
   
   @available(iOS 13.0, *)
   func handleAppRefresh(task: BGAppRefreshTask) {
     scheduleAppRefresh()
-    Teams.shared.getStandings { (success) in
+    Records.shared.refreshCurrentRecords { (success) in
       task.setTaskCompleted(success: success)
     }
   }
@@ -117,7 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    Teams.shared.getStandings { (success) in
+    Records.shared.refreshCurrentRecords { (success) in
       completionHandler(success ? .newData : .failed)
     }
   }
@@ -125,9 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationDidBecomeActive(_ application: UIApplication) {
     standingsTimer?.invalidate()
     standingsTimer = Timer.scheduledTimer(withTimeInterval: 120.0, repeats: true, block: { (timer) in
-      Teams.shared.getStandings()
+      Records.shared.refreshCurrentRecords()
     })
-    Teams.shared.getStandings()
+    Records.shared.refreshCurrentRecords()
   }
   
   func applicationWillResignActive(_ application: UIApplication) {

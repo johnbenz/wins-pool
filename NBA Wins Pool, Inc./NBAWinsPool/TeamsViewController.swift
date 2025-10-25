@@ -24,18 +24,29 @@ class TeamsViewController: UITableViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    Teams.shared.delegate = self
+    Records.shared.delegate = self
     reloadData()
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    Teams.shared.delegate = nil
+    Records.shared.delegate = nil
   }
   
   @objc func reloadData() {
-    picks = pool.picksForMember(member)?.sorted { $0.team?.record?.percentage ?? 0 > $1.team?.record?.percentage ?? 0 } ?? []
-    tableView.reloadData()
+    let p = pool
+    let m = member
+    Records.shared.recordsForYear((pool.dateCreated ?? Date()).nbaYear) { [weak self] records, _ in
+      guard let records else { return }
+      
+      func recordForPick(_ pick: Pool.Pick) -> Record? {
+        guard let team = pick.team else { return nil }
+        return records[team]
+      }
+      
+      self?.picks = p!.picksForMember(m!)?.sorted { recordForPick($0)?.percentage ?? 0 > recordForPick($1)?.percentage ?? 0 } ?? []
+      self?.tableView.reloadData()
+    }
   }
   
   // MARK: - Table view data source
@@ -52,15 +63,15 @@ class TeamsViewController: UITableViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: "DraftTableViewCell", for: indexPath) as! DraftTableViewCell
     
     let pick = picks[indexPath.row]
-    cell.set(team: pick.team)
+    cell.set(team: pick.team, date: pool.dateCreated ?? Date())
     cell.pick.text = "Pick: \(pick.number)"
     
     return cell
   }
 }
 
-extension TeamsViewController: TeamsDelegate {
-  func teams(_ teams: Teams, didUpdateTeam team: Team) {
+extension TeamsViewController: RecordsDelegate {
+  func didUpdateRecords(_ records: Records, forYear: String) {
     reloadData()
   }
 }

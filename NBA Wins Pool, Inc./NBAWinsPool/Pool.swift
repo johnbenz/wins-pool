@@ -83,17 +83,26 @@ extension Pool {
     return Set(picks?.filter { $0.member == member }.compactMap { $0.team } ?? [])
   }
   
-  func recordForMember(_ member: Member) -> Record {
-    return teamsForMember(member)
-      .compactMap { $0.record }
-      .reduce(Record(wins: 0, losses: 0), { $0 + $1 })
+  func recordForMember(_ member: Member, completion: @escaping (Record) -> Void) {
+    let teams = teamsForMember(member)
+    Records.shared.recordsForYear((dateCreated ?? Date()).nbaYear) { records, _ in
+      var result = Record.zero
+      guard let r = records else {
+        completion(result)
+        return
+      }
+      teams.forEach {
+        result = result + (r[$0] ?? .zero)
+      }
+      completion(result)
+    }
   }
 }
 
 extension Pool.Pick {
   var team: Team? {
     guard let id = teamId else { return nil }
-    return Teams.shared.idToTeam[id]
+    return Team(rawValue: id)
   }
 }
 
@@ -111,13 +120,26 @@ extension Pool {
     return size == members.count
   }
   
-  var membersSortedByWinPercentage: [Member] {
-    return members.sorted { self.recordForMember($0).percentage > self.recordForMember($1).percentage }
+  func membersSortedByWinPercentage(completion: @escaping ([Member]) -> Void) {
+    var memberToRecord = [Member : Record]()
+    
+    let group = DispatchGroup()
+    members.forEach {
+      let member = $0
+      group.enter()
+      self.recordForMember(member) { record in
+        memberToRecord[member] = record
+        group.leave()
+      }
+    }
+    group.notify(queue: .main) {
+      completion(members.sorted { memberToRecord[$0]!.percentage > memberToRecord[$1]!.percentage })
+    }
   }
   
   var teamsRemaining: Set<Team> {
     let selectedTeams = picks?.compactMap { $0.team } ?? []
-    return Set(Teams.shared.teams.subtracting(selectedTeams))
+    return Set(Set(Team.allCases).subtracting(selectedTeams))
   }
 }
 

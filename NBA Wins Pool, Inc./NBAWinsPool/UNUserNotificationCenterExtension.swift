@@ -22,7 +22,7 @@ extension UNUserNotificationCenter {
   }
   
   static func addNotificationForTeam(_ team: Team, record: Record, winning: Bool) {
-    addNotification(id: team.id.rawValue,
+    addNotification(id: team.rawValue,
                     title: "The \(team.name) \(winning ? "Won!" : "Lost :(")",
                     body: "Their record is now \(record.asString).")
   }

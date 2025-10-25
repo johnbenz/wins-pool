@@ -26,15 +26,16 @@ class PickViewController: UIViewController {
     emoji.backgroundColor = team.primaryColor
     button.layer.cornerRadius = 4.0
     teamName.text = team.name
-    let r = team.record
-    teamRecord.text = "\(r?.wins ?? 0)-\(r?.losses ?? 0) (\(String(format: "%.1f", (r?.percentage ?? 0)*100.0)))"
-
+    team.recordForDate(pool.dateCreated ?? Date()) { [weak self] r in
+      self?.teamRecord.text = "\(r?.wins ?? 0)-\(r?.losses ?? 0) (\(String(format: "%.1f", (r?.percentage ?? 0)*100.0)))"
+    }
+    
     navigationController?.addBackButton(viewController: self)
   }
   
   @IBAction func confirmPressed(_ sender: UIButton) {
     guard let pick = pool.currentPick else { return }
-    FirebaseInterface.pickTeam(id: team!.id.rawValue, poolId: pool.id, member: pick.member, number: pick.number) { (error) in
+    FirebaseInterface.pickTeam(id: team!.rawValue, poolId: pool.id, member: pick.member, number: pick.number) { (error) in
       guard let e = error else {
         self.navigationController?.popViewController(animated: true)
         return

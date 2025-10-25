@@ -58,20 +58,9 @@ class NBA {
     let losses: String
   }
   
-  static func seasonYearFromDate(_ date: Date) -> String {
-    let calendar = Calendar.current
-    let year = calendar.component(.year, from: date)
-    let month = calendar.component(.month, from: date)
-    
-    // If the date is before June (month 6), use previous year
-    let adjustedYear = month < 6 ? year - 1 : year
-    return String(adjustedYear)
-  }
-  
-  func getStandings(date: Date? = nil, completion: @escaping (Bool, NBA.Standings?) -> Void) {
-    let year = NBA.seasonYearFromDate(date ?? Date())
+  func getStandings(year: String? = nil, completion: @escaping (Bool, NBA.Standings?) -> Void) {
     Backend.shared.request(host: "https://sports.yahoo.com/",
-                           endPoint: "site/api/resource/sports.league.standings;alias=full_standings;count=100;league=nba;leagueSeason=standings;season=\(year)",
+                           endPoint: "site/api/resource/sports.league.standings;alias=full_standings;count=100;league=nba;leagueSeason=standings;season=\(year ?? "")",
                            parameters: [
                             "device" : "desktop",
                             "ecma" : "modern",
@@ -87,7 +76,7 @@ class NBA {
 }
 
 extension NBA.TeamId {
-  func toTeamId() -> Team.Id? {
+  func toTeam() -> Team {
     switch self {
     case .atlhawks: return .hawks
     case .celtics: return .celtics
@@ -129,5 +118,29 @@ extension NBA.Standing {
   }
   var losses: Int {
     return Int(team_record.losses) ?? 0
+  }
+}
+
+extension Date {
+  var nbaYear: String {
+    let calendar = Calendar.current
+    let year = calendar.component(.year, from: self)
+    let month = calendar.component(.month, from: self)
+    
+    // If the date is before June (month 6), use previous year
+    let adjustedYear = month < 6 ? year - 1 : year
+    return String(adjustedYear)
+  }
+}
+
+extension NBA.Standings {
+  func toTeamRecords() -> [Team : Record] {
+    var result = [Team : Record]()
+    teamteam_standing.keys.forEach { key in
+      if let standing = teamteam_standing[key], let teamId = NBA.TeamId(rawValue: key) {
+        result[teamId.toTeam()] = Record(wins: standing.wins, losses: standing.losses)
+      }
+    }
+    return result
   }
 }

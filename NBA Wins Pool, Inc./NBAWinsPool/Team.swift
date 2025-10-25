@@ -9,87 +9,51 @@
 import UIKit
 import UserNotifications
 
-struct Record: Codable {
-  let wins: Int
-  let losses: Int
-  
-  var percentage: Double {
-    if wins + losses == 0 {
-      return 0
-    }
-    return Double(wins) / Double(wins + losses)
-  }
-  
-  var asString: String {
-    return "\(wins)-\(losses)"
-  }
-  
-  public static func +(lhs: Record, rhs: Record) -> Record {
-    return Record(wins: lhs.wins + rhs.wins, losses: lhs.losses + rhs.losses)
-  }
+enum Team: String {
+  case hawks = "atlanta-hawks"
+  case lakers = "los-angeles-lakers"
+  case clippers = "los-angeles-clippers"
+  case suns = "phoenix-suns"
+  case bucks = "milwaukee-bucks"
+  case jazz = "utah-jazz"
+  case heat = "miami-heat"
+  case cavaliers = "cleveland-cavaliers"
+  case magic = "orlando-magic"
+  case pacers = "indiana-pacers"
+  case rockets = "houston-rockets"
+  case spurs = "san-antonio-spurs"
+  case warriors = "golden-state-warriors"
+  case thunder = "oklahoma-city-thunder"
+  case pistons = "detroit-pistons"
+  case celtics = "boston-celtics"
+  case hornets = "charlotte-hornets"
+  case pelicans = "new-orleans-pelicans"
+  case bulls = "chicago-bulls"
+  case nets = "brooklyn-nets"
+  case grizzlies = "memphis-grizzlies"
+  case blazers = "portland-trail-blazers"
+  case kings = "sacramento-kings"
+  case sixers = "philadelphia-76ers"
+  case timberwolves = "minnesota-timberwolves"
+  case knicks = "new-york-knicks"
+  case mavericks = "dallas-mavericks"
+  case wizards = "washington-wizards"
+  case raptors = "toronto-raptors"
+  case nuggets = "denver-nuggets"
 }
 
-extension Record: Equatable {
-  static func ==(lhs: Record, rhs: Record) -> Bool {
-    return lhs.wins == rhs.wins && lhs.losses == rhs.losses
-  }
-}
-
-extension Record: CustomStringConvertible {
-  var description: String {
-    return "\(wins)-\(losses) (\(percentage))"
-  }
-}
-
-class Team: Codable {
-  enum Id: String {
-    case hawks = "atlanta-hawks"
-    case lakers = "los-angeles-lakers"
-    case clippers = "los-angeles-clippers"
-    case suns = "phoenix-suns"
-    case bucks = "milwaukee-bucks"
-    case jazz = "utah-jazz"
-    case heat = "miami-heat"
-    case cavaliers = "cleveland-cavaliers"
-    case magic = "orlando-magic"
-    case pacers = "indiana-pacers"
-    case rockets = "houston-rockets"
-    case spurs = "san-antonio-spurs"
-    case warriors = "golden-state-warriors"
-    case thunder = "oklahoma-city-thunder"
-    case pistons = "detroit-pistons"
-    case celtics = "boston-celtics"
-    case hornets = "charlotte-hornets"
-    case pelicans = "new-orleans-pelicans"
-    case bulls = "chicago-bulls"
-    case nets = "brooklyn-nets"
-    case grizzlies = "memphis-grizzlies"
-    case blazers = "portland-trail-blazers"
-    case kings = "sacramento-kings"
-    case sixers = "philadelphia-76ers"
-    case timberwolves = "minnesota-timberwolves"
-    case knicks = "new-york-knicks"
-    case mavericks = "dallas-mavericks"
-    case wizards = "washington-wizards"
-    case raptors = "toronto-raptors"
-    case nuggets = "denver-nuggets"
-  }
-  
-  var id: Id
-  var record: Record?
-  
-  init(id: Id, record: Record? = nil) {
-    self.id = id
-    self.record = nil
-  }
-}
-
-extension Team.Id: CaseIterable {}
-extension Team.Id: Codable {}
+extension Team: CaseIterable, Codable {}
 
 extension Team {
+  func recordForDate(_ date: Date, completion: @escaping (Record?) -> Void) {
+    Records.shared.recordsForYear(date.nbaYear) { result, _ in
+      let record = result?[self]
+      completion(record)
+    }
+  }
+  
   var primaryColor: UIColor {
-    switch id {
+    switch self {
     case .hawks:
       return UIColor(red: 224, green: 58, blue: 62)
     case .celtics:
@@ -154,7 +118,7 @@ extension Team {
   }
   
   var name: String {
-    switch id {
+    switch self {
     case .hawks:
       return "Atlanta Hawks"
     case .celtics:
@@ -219,7 +183,7 @@ extension Team {
   }
   
   var emoji: String {
-    switch id {
+    switch self {
     case .hawks:
       return "🥷"
     case .celtics:
@@ -281,17 +245,5 @@ extension Team {
     case .wizards:
       return "💩"
     }
-  }
-}
-
-extension Team: Equatable {
-  static func ==(lhs: Team, rhs: Team) -> Bool {
-    return lhs.id == rhs.id
-  }
-}
-
-extension Team: Hashable {
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(id)
   }
 }

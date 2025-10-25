@@ -89,13 +89,13 @@ class DraftViewController: UITableViewController {
     if indexPath.section == 0 {
       let team = teams[indexPath.row]
       cell.pick.isHidden = true
-      cell.set(team: team)
+      cell.set(team: team, date: Date())
     } else {
       if indexPath.row < picks.count {
         let team = picks[indexPath.row].team
-        cell.set(team: team)
+        cell.set(team: team, date: Date())
       } else {
-        cell.set(team: nil)
+        cell.set(team: nil, date: Date())
       }
       cell.pick.isHidden = false
       cell.pick.text = "\(indexPath.row + 1). \(picks[indexPath.row].member.name)"

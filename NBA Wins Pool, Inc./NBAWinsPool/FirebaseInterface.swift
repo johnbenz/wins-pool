@@ -150,7 +150,7 @@ struct FirebaseInterface {
       ]
       
       if p.currentPick?.number == 29 {
-        dictionary["numberToPick.30.teamId"] = Set(p.teamsRemaining.map { $0.id.rawValue }).subtracting([teamId]).first
+        dictionary["numberToPick.30.teamId"] = Set(p.teamsRemaining.map { $0.rawValue }).subtracting([teamId]).first
       }
       
       transaction.updateData(dictionary, forDocument: documentRef)
